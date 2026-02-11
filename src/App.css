@@ -166,3 +166,54 @@ tbody tr:hover {
   text-align: center;
   font-style: italic;
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .app {
+    padding: 1rem;
+  }
+
+  .app h1 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .card h2 {
+    font-size: 1rem;
+  }
+
+  /* Summary */
+  .total {
+    font-size: 1.8rem;
+  }
+
+  /* Form - Stack inputs vertically on mobile */
+  .form-row {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .form-row label {
+    width: 100%;
+  }
+
+  /* Table - Adjust font size */
+  table {
+    font-size: 0.85rem;
+  }
+
+  thead th,
+  tbody td {
+    padding: 0.4rem;
+  }
+
+  .delete-btn {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.75rem;
+  }
+}
