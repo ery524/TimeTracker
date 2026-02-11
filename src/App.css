@@ -11,6 +11,30 @@
   font-size: 1.6rem;
 }
 
+/* Backup Controls */
+.backup-controls {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
+.backup-btn {
+  padding: 0.5rem 1rem;
+  background: #fff;
+  color: #1a73e8;
+  border: 1px solid #1a73e8;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.backup-btn:hover {
+  background: #1a73e8;
+  color: #fff;
+}
+
 .card {
   background: #fff;
   border-radius: 10px;
