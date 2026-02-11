@@ -7,7 +7,7 @@ Track overtime hours worked per calendar week with persistent storage
 import json
 import os
 from datetime import datetime, date
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any, Tuple
 
 
 class OvertimeTracker:
@@ -21,7 +21,7 @@ class OvertimeTracker:
             data_file: Path to the JSON file for persistent storage
         """
         self.data_file = data_file
-        self.data: Dict[str, Dict[str, float]] = {}
+        self.data: Dict[str, Dict[str, Any]] = {}
         self.load_data()
     
     def load_data(self) -> None:
@@ -42,7 +42,7 @@ class OvertimeTracker:
             json.dump(self.data, f, indent=2, ensure_ascii=False)
     
     @staticmethod
-    def get_calendar_week(target_date: Optional[date] = None) -> tuple[int, int]:
+    def get_calendar_week(target_date: Optional[date] = None) -> Tuple[int, int]:
         """
         Get the calendar week and year for a given date
         
