@@ -302,7 +302,6 @@ class OvertimeTrackerGUI:
             self.tracker.add_overtime(hours, description=description)
             
             # Show success message
-            year, week = self.tracker.get_calendar_week()
             self.add_status_label.config(
                 text=f"✓ {hours:.2f} Stunden erfolgreich hinzugefügt!",
                 foreground=self.secondary_color
@@ -316,6 +315,7 @@ class OvertimeTrackerGUI:
             self.refresh_display()
             
             # Show success popup
+            year, week = self.tracker.get_calendar_week()
             messagebox.showinfo("Erfolg", 
                               f"✓ {hours:.2f} Überstunden für KW {week}/{year} hinzugefügt!")
             
@@ -369,7 +369,16 @@ class OvertimeTrackerGUI:
         total_all = 0.0
         
         for week_key in weeks:
-            week_data = self.tracker.data[week_key]
+            # Parse week_key to get year and week (format: "YYYY-Www")
+            try:
+                year_str, week_str = week_key.split('-W')
+                year = int(year_str)
+                week = int(week_str)
+                week_data = self.tracker.get_week_overtime(year, week)
+            except (ValueError, AttributeError):
+                # Fallback if week_key format is unexpected
+                continue
+            
             total_hours = week_data.get('total_hours', 0.0)
             total_all += total_hours
             
