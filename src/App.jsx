@@ -68,7 +68,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1>TimeTracker – Überstunden Tracker</h1>
+      <h1>TimeTracker – Eray's Überstunden Tracker</h1>
       <div className="backup-controls">
         <button onClick={handleExport} className="backup-btn">
           📥 Daten exportieren
