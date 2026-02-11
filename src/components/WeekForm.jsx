@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { getCurrentWeekNumber, getCurrentYear, getTargetHours } from '../utils/overtime';
 
 function getNextWeek(weeks) {
@@ -24,41 +24,34 @@ function getNextWeek(weeks) {
 }
 
 export default function WeekForm({ onAdd, weeks }) {
-  const [year, setYear] = useState(getCurrentYear());
-  const [week, setWeek] = useState(getCurrentWeekNumber());
+  const initialWeek = useMemo(() => getNextWeek(weeks), [weeks]);
+  
+  const [year, setYear] = useState(initialWeek.year);
+  const [week, setWeek] = useState(initialWeek.week);
   const [hoursWorked, setHoursWorked] = useState('');
   const [isHoliday, setIsHoliday] = useState(false);
   const [reduction, setReduction] = useState(0);
-
-  useEffect(() => {
-    const { year: nextYear, week: nextWeek } = getNextWeek(weeks);
-    setYear(nextYear);
-    setWeek(nextWeek);
-  }, [weeks]);
 
   const targetHours = getTargetHours(isHoliday);
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!hoursWorked && hoursWorked !== 0) return;
-    onAdd({
+    
+    const newEntry = {
       year: Number(year),
       week: Number(week),
       hoursWorked: Number(hoursWorked),
       isHoliday,
       reduction: Number(reduction) || 0,
-    });
+    };
+    
+    onAdd(newEntry);
     setHoursWorked('');
     setReduction(0);
     setIsHoliday(false);
     
-    const { year: nextYear, week: nextWeek } = getNextWeek([...weeks, {
-      year: Number(year),
-      week: Number(week),
-      hoursWorked: Number(hoursWorked),
-      isHoliday,
-      reduction: Number(reduction) || 0,
-    }]);
+    const { year: nextYear, week: nextWeek } = getNextWeek([...weeks, newEntry]);
     setYear(nextYear);
     setWeek(nextWeek);
   }

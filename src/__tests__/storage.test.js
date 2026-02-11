@@ -3,7 +3,6 @@ import { loadWeeks, saveWeeks, exportWeeks, importWeeks } from '../utils/storage
 
 describe('storage', () => {
   let store;
-  let mockIndexedDB;
 
   beforeEach(() => {
     store = {};
@@ -12,22 +11,6 @@ describe('storage', () => {
       setItem: vi.fn((key, value) => { store[key] = value; }),
       removeItem: vi.fn((key) => { delete store[key]; }),
     });
-
-    mockIndexedDB = {
-      open: vi.fn(() => {
-        const request = {
-          onsuccess: null,
-          onerror: null,
-          onupgradeneeded: null,
-        };
-        setTimeout(() => {
-          if (request.onerror) {
-            request.onerror({ target: { error: new Error('IndexedDB not available') } });
-          }
-        }, 0);
-        return request;
-      }),
-    };
 
     vi.stubGlobal('indexedDB', undefined);
     
