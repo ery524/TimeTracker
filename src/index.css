@@ -11,3 +11,12 @@ body {
   background: #f4f6f9;
   min-height: 100vh;
 }
+
+.subtitle-one {
+  text-align: left;
+  font-size: 0.9rem;
+  color: #767676;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
