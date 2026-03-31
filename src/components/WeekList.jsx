@@ -1,4 +1,4 @@
-import { getTargetHours, calculateWeekOvertime } from '../utils/overtime';
+import { getTargetHours, calculateWeekOvertime, decimalToHHMM } from '../utils/overtime';
 
 export default function WeekList({ weeks, onDelete }) {
   const sorted = [...weeks].sort((a, b) => b.year - a.year || b.week - a.week);
@@ -37,7 +37,7 @@ export default function WeekList({ weeks, onDelete }) {
                   <td>{entry.year}</td>
                   <td>{entry.week}</td>
                   <td>{target}h</td>
-                  <td>{entry.hoursWorked}h</td>
+                  <td>{decimalToHHMM(entry.hoursWorked)}</td>
                   <td>{entry.reduction || 0}h</td>
                   <td className={overtime >= 0 ? 'positive' : 'negative'}>
                     {overtime >= 0 ? '+' : ''}{overtime}h

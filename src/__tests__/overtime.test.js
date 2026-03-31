@@ -5,6 +5,8 @@ import {
   calculateTotalOvertime,
   getCurrentWeekNumber,
   getCurrentYear,
+  decimalToHHMM,
+  hhmmToDecimal,
 } from '../utils/overtime';
 
 describe('getTargetHours', () => {
@@ -78,5 +80,49 @@ describe('getCurrentYear', () => {
   it('returns current year', () => {
     const year = getCurrentYear(new Date());
     expect(year).toBe(new Date().getFullYear());
+  });
+});
+
+describe('decimalToHHMM', () => {
+  it('converts whole hours', () => {
+    expect(decimalToHHMM(43)).toBe('43:00');
+  });
+
+  it('converts half hours', () => {
+    expect(decimalToHHMM(8.5)).toBe('08:30');
+  });
+
+  it('converts quarter hours', () => {
+    expect(decimalToHHMM(41.25)).toBe('41:15');
+  });
+
+  it('converts zero', () => {
+    expect(decimalToHHMM(0)).toBe('00:00');
+  });
+
+  it('pads single-digit hours', () => {
+    expect(decimalToHHMM(1)).toBe('01:00');
+  });
+});
+
+describe('hhmmToDecimal', () => {
+  it('converts whole hours', () => {
+    expect(hhmmToDecimal('43:00')).toBe(43);
+  });
+
+  it('converts half hours', () => {
+    expect(hhmmToDecimal('08:30')).toBeCloseTo(8.5);
+  });
+
+  it('converts quarter hours', () => {
+    expect(hhmmToDecimal('41:15')).toBeCloseTo(41.25);
+  });
+
+  it('converts zero', () => {
+    expect(hhmmToDecimal('00:00')).toBe(0);
+  });
+
+  it('handles single-digit hours', () => {
+    expect(hhmmToDecimal('8:30')).toBeCloseTo(8.5);
   });
 });

@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { getCurrentWeekNumber, getCurrentYear, getTargetHours } from '../utils/overtime';
+import { getCurrentWeekNumber, getCurrentYear, getTargetHours, hhmmToDecimal } from '../utils/overtime';
 
 function getNextWeek(weeks) {
   if (!weeks || weeks.length === 0) {
@@ -34,14 +34,20 @@ export default function WeekForm({ onAdd, weeks }) {
 
   const targetHours = getTargetHours(isHoliday);
 
+  function isValidHHMM(value) {
+    if (!/^\d+:\d{2}$/.test(value)) return false;
+    const minutes = parseInt(value.split(':')[1], 10);
+    return minutes >= 0 && minutes <= 59;
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    if (!hoursWorked && hoursWorked !== 0) return;
+    if (!hoursWorked || !isValidHHMM(hoursWorked)) return;
     
     const newEntry = {
       year: Number(year),
       week: Number(week),
-      hoursWorked: Number(hoursWorked),
+      hoursWorked: hhmmToDecimal(hoursWorked),
       isHoliday,
       reduction: Number(reduction) || 0,
     };
@@ -73,7 +79,16 @@ export default function WeekForm({ onAdd, weeks }) {
         <div className="form-row">
           <label>
             Stunden gearbeitet
-            <input type="number" step="0.5" value={hoursWorked} onChange={e => setHoursWorked(e.target.value)} required />
+            <input
+              type="text"
+              placeholder="00:00"
+              value={hoursWorked}
+              onChange={e => {
+                const val = e.target.value;
+                if (/^\d{0,3}(:\d{0,2})?$/.test(val)) setHoursWorked(val);
+              }}
+              required
+            />
           </label>
           <label>
             Stundenabbau

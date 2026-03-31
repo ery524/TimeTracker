@@ -1,3 +1,19 @@
+export function decimalToHHMM(decimal) {
+  const totalMinutes = Math.round(decimal * 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
+
+export function hhmmToDecimal(hhmm) {
+  const parts = hhmm.split(':');
+  if (parts.length !== 2) return 0;
+  const hours = parseInt(parts[0], 10);
+  const minutes = parseInt(parts[1], 10);
+  if (isNaN(hours) || isNaN(minutes)) return 0;
+  return hours + minutes / 60;
+}
+
 export function getTargetHours(isHoliday) {
   return isHoliday ? 40 : 41;
 }
